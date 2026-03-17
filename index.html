@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendário de Eventos</title>
+
   <style>
     * { box-sizing: border-box; }
 
@@ -23,6 +24,41 @@
       font-size: 22px;
     }
 
+    /* 🔥 DIAS DA SEMANA */
+    .weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      padding: 10px;
+      position: sticky;
+      top: 0;
+      background: #ffe4ec;
+      z-index: 10;
+    }
+
+    .weekdays div {
+      text-align: center;
+      font-weight: 900;
+      background: linear-gradient(135deg, #ff4d88, #ff80ab);
+      color: white;
+      border-radius: 14px;
+      padding: 18px 10px;
+      font-size: 26px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    /* 🔴 Domingo */
+    .weekdays div:nth-child(1) {
+      background: linear-gradient(135deg, #ff2e63, #ff6b81);
+    }
+
+    /* 🟣 Sábado */
+    .weekdays div:nth-child(7) {
+      background: linear-gradient(135deg, #6a5acd, #9370db);
+    }
+
     .calendar {
       flex: 1;
       display: grid;
@@ -30,14 +66,6 @@
       gap: 8px;
       padding: 10px;
       width: 100%;
-    }
-
-    .header {
-      text-align: center;
-      font-weight: bold;
-      background: #ffd6e7;
-      border-radius: 8px;
-      padding: 6px;
     }
 
     .day {
@@ -52,34 +80,47 @@
       align-items: flex-start;
       justify-content: flex-start;
       padding: 8px;
-      text-align: left;
       transition: 0.2s;
-      min-height: 70px;
+      min-height: 80px;
+    }
+
+    .day:hover {
+      transform: scale(1.05);
     }
 
     .day span {
-      font-size: 14px;
-      font-weight: 600;
-      margin-top: 4px;
+      font-size: 16px;
+      font-weight: 700;
+      margin-top: 5px;
+    }
+
+    /* 🔴 Domingo (dias) */
+    .day:nth-child(7n+1) {
+      background-color: #ffe5ec;
+    }
+
+    /* 🟣 Sábado (dias) */
+    .day:nth-child(7n) {
+      background-color: #e6e6fa;
     }
 
     .event {
-      background-color: #ff80ab;
+      background-color: #ff80ab !important;
       color: white;
     }
 
     .selected {
-      outline: 2px solid #d63384;
-      transform: scale(1.03);
+      outline: 3px solid #d63384;
+      transform: scale(1.05);
     }
 
     #description {
-      padding: 15px;
+      padding: 20px;
       background-color: white;
-      border-top: 2px solid #ff80ab;
+      border-top: 3px solid #ff4d88;
       width: 100%;
-      min-height: 100px;
-      font-size: 16px;
+      min-height: 120px;
+      font-size: 18px;
       transition: transform 0.4s ease, opacity 0.4s ease;
     }
 
@@ -87,30 +128,40 @@
       transform: translateY(20px);
       opacity: 0;
     }
+
   </style>
 </head>
 <body>
 
   <h1>Calendário de Eventos</h1>
 
+  <div class="weekdays" id="weekdays"></div>
   <div class="calendar" id="calendar"></div>
 
   <div id="description">Clique em um dia com evento para ver os detalhes.</div>
 
   <script>
     const calendar = document.getElementById('calendar');
+    const weekdays = document.getElementById('weekdays');
     const description = document.getElementById('description');
-    const totalDays = 31;
 
+    const totalDays = 31;
     const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-    // Cabeçalho (funciona em PC e celular)
+    // Criar cabeçalho
     daysOfWeek.forEach(day => {
-      const header = document.createElement('div');
-      header.classList.add('header');
-      header.innerText = day;
-      calendar.appendChild(header);
+      const div = document.createElement('div');
+      div.innerText = day;
+      weekdays.appendChild(div);
     });
+
+    // Ajuste do início do mês
+    const startDay = 3;
+
+    for (let i = 0; i < startDay; i++) {
+      const empty = document.createElement('div');
+      calendar.appendChild(empty);
+    }
 
     let selectedDayElement = null;
 
