@@ -2,16 +2,14 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <title>Atividades de Março</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendário de Eventos</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       font-family: Arial, sans-serif;
       background-color: #ffe4ec;
-      text-align: center;
       margin: 0;
       height: 100vh;
       display: flex;
@@ -21,17 +19,17 @@
     h1 {
       color: #d63384;
       margin: 10px 0;
+      text-align: center;
+      font-size: 22px;
     }
 
     .calendar {
       flex: 1;
       display: grid;
       grid-template-columns: repeat(7, 1fr);
-      gap: 10px;
-      padding: 20px;
-      width: 90%;
-      height: 80%;
-      margin: 0 auto;
+      gap: 8px;
+      padding: 10px;
+      width: 100%;
     }
 
     .day {
@@ -39,11 +37,22 @@
       border-radius: 10px;
       cursor: pointer;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      font-size: 24px;
+      font-size: 16px;
       font-weight: bold;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 8px;
+      text-align: left;
+      transition: 0.2s;
+      min-height: 70px;
+    }
+
+    .day span {
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 4px;
     }
 
     .day:hover {
@@ -55,16 +64,45 @@
       color: white;
     }
 
+    .selected {
+      outline: 2px solid #d63384;
+      transform: scale(1.03);
+    }
+
     #description {
-      padding: 25px;
+      padding: 15px;
       background-color: white;
       border-top: 2px solid #ff80ab;
-      width: 95%;
-      margin: 10px auto 20px auto;
-      min-height: 120px;
-      font-size: 18px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,
+      width: 100%;
+      min-height: 100px;
+      font-size: 16px;
+      transition: transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .animate {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+
+    /* 📱 Ajustes para celular */
+    @media (max-width: 600px) {
+      .calendar {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .day {
+        font-size: 14px;
+        min-height: 60px;
+      }
+
+      .day span {
+        font-size: 12px;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -77,29 +115,66 @@
 
   <script>
     const calendar = document.getElementById('calendar');
+    const description = document.getElementById('description');
     const totalDays = 31;
+
+    let selectedDayElement = null;
 
     for (let i = 1; i <= totalDays; i++) {
       const dayDiv = document.createElement('div');
       dayDiv.classList.add('day');
-      dayDiv.innerText = i;
 
-      if (i === 3 || i === 5) {
+      const number = document.createElement('div');
+      number.innerText = i;
+      dayDiv.appendChild(number);
+
+      if (i === 3) {
         dayDiv.classList.add('event');
-        dayDiv.onclick = () => showEvent(i);
+        const eventText = document.createElement('span');
+        eventText.innerText = 'Almoço em família';
+        dayDiv.appendChild(eventText);
+        dayDiv.onclick = () => selectDay(dayDiv, i);
+      }
+
+      if (i === 5) {
+        dayDiv.classList.add('event');
+        const eventText = document.createElement('span');
+        eventText.innerText = 'Compras do mês';
+        dayDiv.appendChild(eventText);
+        dayDiv.onclick = () => selectDay(dayDiv, i);
       }
 
       calendar.appendChild(dayDiv);
     }
 
-    function showEvent(day) {
-      const description = document.getElementById('description');
-
-      if (day === 3) {
-        description.innerHTML = "<strong>Evento do dia 3:</strong><br>Reunião especial com apresentação de projetos.";
-      } else if (day === 5) {
-        description.innerHTML = "<strong>Evento do dia 5:</strong><br>Festa temática com música e comida.";
+    function selectDay(element, day) {
+      if (selectedDayElement) {
+        selectedDayElement.classList.remove('selected');
       }
+
+      element.classList.add('selected');
+      selectedDayElement = element;
+
+      showEvent(day);
+    }
+
+    function animateChange(callback) {
+      description.classList.add('animate');
+
+      setTimeout(() => {
+        callback();
+        description.classList.remove('animate');
+      }, 300);
+    }
+
+    function showEvent(day) {
+      animateChange(() => {
+        if (day === 3) {
+          description.innerHTML = "<strong>Almoço em família:</strong><br>Momento especial com a família.";
+        } else if (day === 5) {
+          description.innerHTML = "<strong>Compras do mês:</strong><br>Dia de comprar mantimentos e itens necessários.";
+        }
+      });
     }
   </script>
 
