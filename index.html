@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendário de Eventos</title>
+  <title>Calendário de Março</title>
 
   <style>
     * { box-sizing: border-box; }
@@ -21,10 +21,9 @@
       color: #d63384;
       margin: 10px 0;
       text-align: center;
-      font-size: 22px;
+      font-size: 24px;
     }
 
-    /* 🔥 DIAS DA SEMANA */
     .weekdays {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
@@ -43,18 +42,16 @@
       color: white;
       border-radius: 14px;
       padding: 18px 10px;
-      font-size: 26px;
+      font-size: 24px;
       box-shadow: 0 6px 12px rgba(0,0,0,0.25);
       text-transform: uppercase;
       letter-spacing: 2px;
     }
 
-    /* 🔴 Domingo */
     .weekdays div:nth-child(1) {
       background: linear-gradient(135deg, #ff2e63, #ff6b81);
     }
 
-    /* 🟣 Sábado */
     .weekdays div:nth-child(7) {
       background: linear-gradient(135deg, #6a5acd, #9370db);
     }
@@ -65,7 +62,6 @@
       grid-template-columns: repeat(7, 1fr);
       gap: 8px;
       padding: 10px;
-      width: 100%;
     }
 
     .day {
@@ -81,7 +77,7 @@
       justify-content: flex-start;
       padding: 8px;
       transition: 0.2s;
-      min-height: 80px;
+      min-height: 85px;
     }
 
     .day:hover {
@@ -89,17 +85,16 @@
     }
 
     .day span {
-      font-size: 16px;
-      font-weight: 700;
-      margin-top: 5px;
+      font-size: 20px;
+      font-weight: 900;
+      margin-top: 4px;
+      line-height: 1.2;
     }
 
-    /* 🔴 Domingo (dias) */
     .day:nth-child(7n+1) {
       background-color: #ffe5ec;
     }
 
-    /* 🟣 Sábado (dias) */
     .day:nth-child(7n) {
       background-color: #e6e6fa;
     }
@@ -118,7 +113,6 @@
       padding: 20px;
       background-color: white;
       border-top: 3px solid #ff4d88;
-      width: 100%;
       min-height: 120px;
       font-size: 18px;
       transition: transform 0.4s ease, opacity 0.4s ease;
@@ -133,7 +127,7 @@
 </head>
 <body>
 
-  <h1>Calendário de Eventos</h1>
+  <h1>Calendário de Março</h1>
 
   <div class="weekdays" id="weekdays"></div>
   <div class="calendar" id="calendar"></div>
@@ -145,18 +139,71 @@
     const weekdays = document.getElementById('weekdays');
     const description = document.getElementById('description');
 
-    const totalDays = 31;
+    const year = 2026;
+    const month = 2;
+
+    const totalDays = new Date(year, month + 1, 0).getDate();
+    const startDay = new Date(year, month, 1).getDay();
+
+    // 🔥 AGORA COM VÁRIOS EVENTOS
+    const events = {
+      3: [
+        {
+          title: "Almoço em família",
+          description: "Momento especial com a família."
+        }
+      ],
+      5: [
+        {
+          title: "Compras do mês",
+          description: "Comprar mantimentos."
+        }
+      ],
+      19: [
+        {
+          title: "Português",
+          description: "Revisar gramática e interpretação."
+        },
+        {
+          title: "Matemática",
+          description: "Trazer folhas quadriculadas para prova."
+        }
+      ],
+      20: [
+        {
+          title: "Trabalho de Arte",
+          description: "Último dia para finalizar."
+        }
+
+      ],
+      23: [
+        {
+          title: "Geografia",
+          description: "Realizar mapa do trajeto da sua casa até a escola."
+        },
+        {
+          title: "CPRT",
+          description: "REalizar a pesquisa do trabalho em sala de aula"
+        },
+        {
+          title: "Sociologia",
+          description: "Entregar as questões realizadas em dupla"
+        },
+        {
+          title: "Filosofia",
+          description: "Apresentação do seminário"
+        }
+      ],
+
+    };
+
     const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
 
-    // Criar cabeçalho
     daysOfWeek.forEach(day => {
       const div = document.createElement('div');
       div.innerText = day;
       weekdays.appendChild(div);
     });
-
-    // Ajuste do início do mês
-    const startDay = 3;
 
     for (let i = 0; i < startDay; i++) {
       const empty = document.createElement('div');
@@ -173,19 +220,15 @@
       number.innerText = i;
       dayDiv.appendChild(number);
 
-      if (i === 3) {
+      if (events[i]) {
         dayDiv.classList.add('event');
-        const eventText = document.createElement('span');
-        eventText.innerText = 'Almoço em família';
-        dayDiv.appendChild(eventText);
-        dayDiv.onclick = () => selectDay(dayDiv, i);
-      }
 
-      if (i === 5) {
-        dayDiv.classList.add('event');
-        const eventText = document.createElement('span');
-        eventText.innerText = 'Compras do mês';
-        dayDiv.appendChild(eventText);
+        events[i].forEach(ev => {
+          const eventText = document.createElement('span');
+          eventText.innerText = ev.title;
+          dayDiv.appendChild(eventText);
+        });
+
         dayDiv.onclick = () => selectDay(dayDiv, i);
       }
 
@@ -214,13 +257,19 @@
 
     function showEvent(day) {
       animateChange(() => {
-        if (day === 3) {
-          description.innerHTML = "<strong>Almoço em família:</strong><br>Momento especial com a família.";
-        } else if (day === 5) {
-          description.innerHTML = "<strong>Compras do mês:</strong><br>Dia de comprar mantimentos e itens necessários.";
+        if (events[day]) {
+
+          let html = "";
+
+          events[day].forEach(ev => {
+            html += `<strong>${ev.title}:</strong><br>${ev.description}<br><br>`;
+          });
+
+          description.innerHTML = html;
         }
       });
     }
+
   </script>
 
 </body>
