@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Calendário de Eventos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #ffe4ec;
+      text-align: center;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    h1 {
+      color: #d63384;
+      margin: 10px 0;
+    }
+
+    .calendar {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      padding: 20px;
+      width: 90%;
+      height: 80%;
+      margin: 0 auto;
+    }
+
+    .day {
+      background-color: white;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      font-size: 24px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .day:hover {
+      background-color: #ffb3c6;
+    }
+
+    .event {
+      background-color: #ff80ab;
+      color: white;
+    }
+
+    #description {
+      padding: 25px;
+      background-color: white;
+      border-top: 2px solid #ff80ab;
+      width: 95%;
+      margin: 10px auto 20px auto;
+      min-height: 120px;
+      font-size: 18px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,
+  </style>
+</head>
+<body>
+
+  <h1>Calendário de Eventos</h1>
+
+  <div class="calendar" id="calendar"></div>
+
+  <div id="description">Clique em um dia com evento para ver os detalhes.</div>
+
+  <script>
+    const calendar = document.getElementById('calendar');
+    const totalDays = 31;
+
+    for (let i = 1; i <= totalDays; i++) {
+      const dayDiv = document.createElement('div');
+      dayDiv.classList.add('day');
+      dayDiv.innerText = i;
+
+      if (i === 3 || i === 5) {
+        dayDiv.classList.add('event');
+        dayDiv.onclick = () => showEvent(i);
+      }
+
+      calendar.appendChild(dayDiv);
+    }
+
+    function showEvent(day) {
+      const description = document.getElementById('description');
+
+      if (day === 3) {
+        description.innerHTML = "<strong>Evento do dia 3:</strong><br>Reunião especial com apresentação de projetos.";
+      } else if (day === 5) {
+        description.innerHTML = "<strong>Evento do dia 5:</strong><br>Festa temática com música e comida.";
+      }
+    }
+  </script>
+
+</body>
+</html>
