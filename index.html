@@ -78,12 +78,14 @@
       padding: 8px;
       transition: 0.2s;
       min-height: 85px;
+      position: relative;
     }
 
     .day:hover {
       transform: scale(1.05);
     }
 
+    /* TEXTO DOS EVENTOS */
     .day span {
       font-size: 20px;
       font-weight: 900;
@@ -91,6 +93,7 @@
       line-height: 1.2;
     }
 
+    /* FIM DE SEMANA */
     .day:nth-child(7n+1) {
       background-color: #ffe5ec;
     }
@@ -109,6 +112,18 @@
       transform: scale(1.05);
     }
 
+    /* 🔴 BOLINHA DE EVENTO */
+    .event::after {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+      top: 6px;
+      right: 6px;
+    }
+
     #description {
       padding: 20px;
       background-color: white;
@@ -121,6 +136,42 @@
     .animate {
       transform: translateY(20px);
       opacity: 0;
+    }
+
+    /* 📱 RESPONSIVO */
+    @media (max-width: 600px) {
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .weekdays div {
+        font-size: 14px;
+        padding: 10px 5px;
+      }
+
+      .calendar {
+        gap: 5px;
+      }
+
+      .day {
+        min-height: 60px;
+        padding: 4px;
+      }
+
+      /* ESCONDE TEXTO NO CELULAR */
+      .day span {
+        display: none;
+      }
+
+      .day div {
+        font-size: 16px;
+      }
+
+      #description {
+        font-size: 16px;
+        padding: 15px;
+      }
     }
 
   </style>
@@ -145,56 +196,26 @@
     const totalDays = new Date(year, month + 1, 0).getDate();
     const startDay = new Date(year, month, 1).getDay();
 
-    // 🔥 AGORA COM VÁRIOS EVENTOS
     const events = {
       3: [
-        {
-          title: "Almoço em família",
-          description: "Momento especial com a família."
-        }
+        { title: "Almoço em família", description: "Momento especial com a família." }
       ],
       5: [
-        {
-          title: "Compras do mês",
-          description: "Comprar mantimentos."
-        }
+        { title: "Compras do mês", description: "Comprar mantimentos." }
       ],
       19: [
-        {
-          title: "Português",
-          description: "Revisar gramática e interpretação."
-        },
-        {
-          title: "Matemática",
-          description: "Trazer folhas quadriculadas para prova."
-        }
+        { title: "Português", description: "Revisar gramática e interpretação." },
+        { title: "Matemática", description: "Trazer folhas quadriculadas para prova." }
       ],
       20: [
-        {
-          title: "Trabalho de Arte",
-          description: "Último dia para finalizar."
-        }
-
+        { title: "Trabalho de Arte", description: "Último dia para finalizar." }
       ],
       23: [
-        {
-          title: "Geografia",
-          description: "Realizar mapa do trajeto da sua casa até a escola."
-        },
-        {
-          title: "CPRT",
-          description: "REalizar a pesquisa do trabalho em sala de aula"
-        },
-        {
-          title: "Sociologia",
-          description: "Entregar as questões realizadas em dupla"
-        },
-        {
-          title: "Filosofia",
-          description: "Apresentação do seminário"
-        }
-      ],
-
+        { title: "Geografia", description: "Mapa da casa até a escola." },
+        { title: "CPRT", description: "Pesquisa em sala." },
+        { title: "Sociologia", description: "Entregar atividade em dupla." },
+        { title: "Filosofia", description: "Apresentação do seminário." }
+      ]
     };
 
     const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
@@ -206,8 +227,7 @@
     });
 
     for (let i = 0; i < startDay; i++) {
-      const empty = document.createElement('div');
-      calendar.appendChild(empty);
+      calendar.appendChild(document.createElement('div'));
     }
 
     let selectedDayElement = null;
@@ -224,9 +244,9 @@
         dayDiv.classList.add('event');
 
         events[i].forEach(ev => {
-          const eventText = document.createElement('span');
-          eventText.innerText = ev.title;
-          dayDiv.appendChild(eventText);
+          const span = document.createElement('span');
+          span.innerText = ev.title;
+          dayDiv.appendChild(span);
         });
 
         dayDiv.onclick = () => selectDay(dayDiv, i);
@@ -258,13 +278,10 @@
     function showEvent(day) {
       animateChange(() => {
         if (events[day]) {
-
           let html = "";
-
           events[day].forEach(ev => {
             html += `<strong>${ev.title}:</strong><br>${ev.description}<br><br>`;
           });
-
           description.innerHTML = html;
         }
       });
