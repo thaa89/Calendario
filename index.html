@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -31,7 +30,6 @@
       gap: 12px;
     }
 
-    /* ✨ BOTÕES MELHORADOS */
     button {
       margin: 10px 0;
       padding: 12px 22px;
@@ -182,6 +180,66 @@
       min-height: 120px;
       font-size: 18px;
     }
+
+    /* 📱 CORREÇÃO MOBILE (ADICIONADO) */
+    @media (max-width: 600px) {
+
+      body {
+        height: auto;
+      }
+
+      h1 {
+        font-size: 18px;
+      }
+
+      .buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      button {
+        width: 90%;
+        justify-content: center;
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .weekdays {
+        gap: 4px;
+        padding: 6px;
+      }
+
+      .weekdays div {
+        font-size: 12px;
+        padding: 8px 2px;
+        letter-spacing: 1px;
+      }
+
+      .calendar {
+        gap: 4px;
+        padding: 6px;
+      }
+
+      .day {
+        min-height: 65px;
+        padding: 4px;
+        font-size: 11px;
+      }
+
+      .day span {
+        font-size: 10px;
+        line-height: 1.1;
+      }
+
+      .day div {
+        font-size: 13px;
+      }
+
+      #description {
+        font-size: 14px;
+        padding: 12px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -219,9 +277,7 @@
     { title: "Trote", description: "Troca de gênero!!" } ],
 
      27: [ { title: "Experimento de Química", description: "Trazer materiais da lista (no grupo) para fazermos o exp. na sala" } ,
-
       { title: "Atividade de Ingles e Treino", description: "Fazer as questoes de ingles (pdf) no caderno e treino da serie" }
-
      ] ,
 
     31: [ 
@@ -229,41 +285,36 @@
     { title: "Prova de Filosofia", description: "Prova, temas que vao cair no grupo."  }
   ] 
   }
+const eventsApril = { 
+  1: [ 
+    { title: "Prova de Geografia", description: "Prova de Geografia" } ,
+    { title: "Prova de Fisica", description: "Temas no grupo" }
+  ] ,
+  2: [ 
+    { title: "Prova de Protugues", description: "Prova" } ,
+    { title: "Prova de Sociologia", description: "Prova" }
+  ] ,
+  
+  3: [ 
+    { title: "Exercicios de Fisica", description: "Entregar em folha separada..." } ,
+  ],
 
-      const eventsApril = { 
-        1: [ 
-          { title: "Prova de Geografia", description: "Prova de Geografia" } ,
-     { title: "Prova de Fisica", description: "Temas no grupo" }
-        ] ,
-        2: [ 
-          { title: "Prova de Protugues", description: "Prova" } ,
-        { title: "Prova de Sociologia", description: "Prova" }
-        ] ,
-        
-        3: [ 
-          { title: "Exercicios de Fisica", description: "Entregar em folha separada, apenas as respostas, pdf no grupo" } ,
-     
-        ],
+  6: [ 
+    { title: "Prova de Matematica", description: "Prova" } ,
+    { title: "Prova de Artes", description: "Prova" }
+  ],
 
+  7: [ 
+    { title: "Prova de Ingles", description: "Prova" } ,
+    { title: "Prova de Historia", description: "Prova" }
+  ]
+}
 
-        6: [ 
-          { title: "Prova de Matematica", description: "Prova" } ,
-        { title: "Prova de Artes", description: "Prova" }
-        ],
-
-        7: [ 
-          { title: "Prova de Ingles", description: "Prova" } ,
-        { title: "Prova de Historia", description: "Prova" }
-        ]
-
-      }
-
-      const eventsMay = {
-         12: [
-
-          { title: "Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" }
-        ] 
-      };
+const eventsMay = {
+  12: [
+    { title: "Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" }
+  ] 
+};
 
     const daysOfWeek = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
     const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio'];
@@ -353,46 +404,42 @@
 
     renderCalendar();
 
-    // 🔥 FUNÇÃO EXTRA (NÃO ALTERA SEU CÓDIGO)
-function hidePastEvents() {
-  const days = document.querySelectorAll('.day');
+    function hidePastEvents() {
+      const days = document.querySelectorAll('.day');
 
-  days.forEach(dayDiv => {
-    const numberDiv = dayDiv.querySelector('div');
-    if (!numberDiv) return;
+      days.forEach(dayDiv => {
+        const numberDiv = dayDiv.querySelector('div');
+        if (!numberDiv) return;
 
-    const dayNumber = parseInt(numberDiv.innerText);
+        const dayNumber = parseInt(numberDiv.innerText);
 
-    const isPastDay =
-      (year === todayYear && month === todayMonth && dayNumber < todayDay) ||
-      (year === todayYear && month < todayMonth) ||
-      (year < todayYear);
+        const isPastDay =
+          (year === todayYear && month === todayMonth && dayNumber < todayDay) ||
+          (year === todayYear && month < todayMonth) ||
+          (year < todayYear);
 
-    if (isPastDay && dayDiv.classList.contains('event')) {
-      dayDiv.classList.remove('event');
+        if (isPastDay && dayDiv.classList.contains('event')) {
+          dayDiv.classList.remove('event');
 
-      const spans = dayDiv.querySelectorAll('span');
-      spans.forEach(span => span.remove());
+          const spans = dayDiv.querySelectorAll('span');
+          spans.forEach(span => span.remove());
 
-      dayDiv.onclick = null;
-    }
-  });
-} 
+          dayDiv.onclick = null;
+        }
+      });
+    } 
 
-// 🔁 OBSERVADOR AUTOMÁTICO (EXECUTA SEM MEXER NA SUA FUNÇÃO)
-const observer = new MutationObserver(() => {
-  hidePastEvents();
-});
+    const observer = new MutationObserver(() => {
+      hidePastEvents();
+    });
 
-observer.observe(document.getElementById('calendar'), {
-  childList: true,
-  subtree: true
-});
+    observer.observe(document.getElementById('calendar'), {
+      childList: true,
+      subtree: true
+    });
 
-// roda uma vez ao carregar
-hidePastEvents();
+    hidePastEvents();
   </script>
 
 </body>
-</html>
-```
+</html> 
