@@ -1,9 +1,10 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendário de Março</title>
+  <title>Calendário</title>
 
   <style>
     * { box-sizing: border-box; }
@@ -22,6 +23,45 @@
       margin: 10px 0;
       text-align: center;
       font-size: 24px;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+
+    /* ✨ BOTÕES MELHORADOS */
+    button {
+      margin: 10px 0;
+      padding: 12px 22px;
+      border: none;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff4d88, #ff80ab);
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+    }
+
+    button:active {
+      transform: scale(0.95);
+    }
+
+    button:disabled {
+      background: #ffc1d6;
+      cursor: not-allowed;
+      opacity: 0.6;
+      box-shadow: none;
     }
 
     .weekdays {
@@ -85,15 +125,12 @@
       transform: scale(1.05);
     }
 
-    /* TEXTO DOS EVENTOS */
     .day span {
       font-size: 20px;
       font-weight: 900;
       margin-top: 4px;
-      line-height: 1.2;
     }
 
-    /* FIM DE SEMANA */
     .day:nth-child(7n+1) {
       background-color: #ffe5ec;
     }
@@ -112,7 +149,6 @@
       transform: scale(1.05);
     }
 
-    /* 🔴 BOLINHA DE EVENTO */
     .event::after {
       content: '';
       width: 8px;
@@ -124,61 +160,38 @@
       right: 6px;
     }
 
+    .today {
+      border: 3px solid #78b6be;
+      background-color: #a2d8e0 !important;
+    }
+
+    .today::before {
+      content: 'HOJE';
+      font-size: 10px;
+      color: #007281;
+      position: absolute;
+      bottom: 5px;
+      right: 5px;
+      font-weight: bold;
+    }
+
     #description {
       padding: 20px;
       background-color: white;
       border-top: 3px solid #ff4d88;
       min-height: 120px;
       font-size: 18px;
-      transition: transform 0.4s ease, opacity 0.4s ease;
     }
-
-    .animate {
-      transform: translateY(20px);
-      opacity: 0;
-    }
-
-    /* 📱 RESPONSIVO */
-    @media (max-width: 600px) {
-
-      h1 {
-        font-size: 18px;
-      }
-
-      .weekdays div {
-        font-size: 14px;
-        padding: 10px 5px;
-      }
-
-      .calendar {
-        gap: 5px;
-      }
-
-      .day {
-        min-height: 60px;
-        padding: 4px;
-      }
-
-      /* ESCONDE TEXTO NO CELULAR */
-      .day span {
-        display: none;
-      }
-
-      .day div {
-        font-size: 16px;
-      }
-
-      #description {
-        font-size: 16px;
-        padding: 15px;
-      }
-    }
-
   </style>
 </head>
 <body>
 
-  <h1>Calendário de Março</h1>
+  <h1 id="title"></h1>
+
+  <div class="buttons">
+    <button onclick="prevMonth()">← Mês anterior</button>
+    <button onclick="nextMonth()">Próximo mês →</button>
+  </div>
 
   <div class="weekdays" id="weekdays"></div>
   <div class="calendar" id="calendar"></div>
@@ -189,113 +202,197 @@
     const calendar = document.getElementById('calendar');
     const weekdays = document.getElementById('weekdays');
     const description = document.getElementById('description');
+    const title = document.getElementById('title');
 
     const year = 2026;
-    const month = 2;
+    let month = 2;
 
-    const totalDays = new Date(year, month + 1, 0).getDate();
-    const startDay = new Date(year, month, 1).getDay();
+    const today = new Date();
+    const todayDay = today.getDate();
+    const todayMonth = today.getMonth();
+    const todayYear = today.getFullYear();
 
-    const events = {
+   const eventsMarch = { 
+    25: [ 
+    { title: "PROVA Legislação empresarial", description: "Prova!!" }, 
+    { title: "Questões Geografia", description: "Fazer as questões do livro e da apostila (pdf no grupo), NAO copiem as perguntas" },
+    { title: "Trote", description: "Troca de gênero!!" } ],
+
+     27: [ { title: "Experimento de Química", description: "Trazer materiais da lista (no grupo) para fazermos o exp. na sala" } ,
+
+      { title: "Atividade de Ingles e Treino", description: "Fazer as questoes de ingles (pdf) no caderno e treino da serie" }
+
+     ] ,
+
+    31: [ 
+      { title: "Prova de Quimica", description: " Prova!!" } ,
+    { title: "Prova de Filosofia", description: "Prova, temas que vao cair no grupo."  }
+  ] 
+  }
+
+      const eventsApril = { 
+        1: [ 
+          { title: "Prova de Geografia", description: "Prova de Geografia" } ,
+     { title: "Prova de Fisica", description: "Temas no grupo" }
+        ] ,
+        2: [ 
+          { title: "Prova de Protugues", description: "Prova" } ,
+        { title: "Prova de Sociologia", description: "Prova" }
+        ] ,
+        
+        3: [ 
+          { title: "Exercicios de Fisica", description: "Entregar em folha separada, apenas as respostas, pdf no grupo" } ,
      
-      
-      20: [
-        { title: "Trabalho de Arte", description: "Último dia para finalizar." }
-      ],
-      23: [
-        { title: "Geografia", description: "Mapa da casa até a escola." },
-        { title: "CPRT", description: "Pesquisa em sala." },
-        { title: "Sociologia", description: "Entregar atividade em dupla." },
-        { title: "Filosofia", description: "Apresentação do seminário." },
-        { title: "ED Fisica", description: "Atividade avaliativa sobre musculos e ossos, em sala de aula" }
-        
-      ],
-      24: [
-       
-        { title: "Biologia", description: "Apresentação dos métodos cientificos" },
-        { title: "Artes", description: "Seminário de arte" },
-        { title: "Ingles", description: "Atividade de inglês, PDF" },
-        
-      ],
-      25: [
-        { title: " PROVA Legislação empresarial", description: "Prova!!" }
+        ],
 
-      ],
-      27: [
-        { title: "Quimica", description: "Trazer itens para experimento" }
-      ],
-    };
 
-    const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+        6: [ 
+          { title: "Prova de Matematica", description: "Prova" } ,
+        { title: "Prova de Artes", description: "Prova" }
+        ],
 
-    daysOfWeek.forEach(day => {
-      const div = document.createElement('div');
-      div.innerText = day;
-      weekdays.appendChild(div);
-    });
+        7: [ 
+          { title: "Prova de Ingles", description: "Prova" } ,
+        { title: "Prova de Historia", description: "Prova" }
+        ]
 
-    for (let i = 0; i < startDay; i++) {
-      calendar.appendChild(document.createElement('div'));
-    }
-
-    let selectedDayElement = null;
-
-    for (let i = 1; i <= totalDays; i++) {
-      const dayDiv = document.createElement('div');
-      dayDiv.classList.add('day');
-
-      const number = document.createElement('div');
-      number.innerText = i;
-      dayDiv.appendChild(number);
-
-      if (events[i]) {
-        dayDiv.classList.add('event');
-
-        events[i].forEach(ev => {
-          const span = document.createElement('span');
-          span.innerText = ev.title;
-          dayDiv.appendChild(span);
-        });
-
-        dayDiv.onclick = () => selectDay(dayDiv, i);
       }
 
-      calendar.appendChild(dayDiv);
+      const eventsMay = {
+         12: [
+
+          { title: "Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" }
+        ] 
+      };
+
+    const daysOfWeek = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio'];
+
+    function getEvents() {
+      if (month === 2) return eventsMarch;
+      if (month === 3) return eventsApril;
+      if (month === 4) return eventsMay;
+      return {};
     }
 
-    function selectDay(element, day) {
-      if (selectedDayElement) {
-        selectedDayElement.classList.remove('selected');
-      }
+    function renderCalendar() {
+      calendar.innerHTML = "";
+      weekdays.innerHTML = "";
 
-      element.classList.add('selected');
-      selectedDayElement = element;
+      title.innerText = `Calendário de ${monthNames[month]}`;
 
-      showEvent(day);
-    }
-
-    function animateChange(callback) {
-      description.classList.add('animate');
-
-      setTimeout(() => {
-        callback();
-        description.classList.remove('animate');
-      }, 300);
-    }
-
-    function showEvent(day) {
-      animateChange(() => {
-        if (events[day]) {
-          let html = "";
-          events[day].forEach(ev => {
-            html += `<strong>${ev.title}:</strong><br>${ev.description}<br><br>`;
-          });
-          description.innerHTML = html;
-        }
+      daysOfWeek.forEach(day => {
+        const div = document.createElement('div');
+        div.innerText = day;
+        weekdays.appendChild(div);
       });
+
+      const totalDays = new Date(year, month + 1, 0).getDate();
+      const startDay = new Date(year, month, 1).getDay();
+      const events = getEvents();
+
+      for (let i = 0; i < startDay; i++) {
+        calendar.appendChild(document.createElement('div'));
+      }
+
+      for (let i = 1; i <= totalDays; i++) {
+        const dayDiv = document.createElement('div');
+        dayDiv.classList.add('day');
+
+        const number = document.createElement('div');
+        number.innerText = i;
+        dayDiv.appendChild(number);
+
+        if (i === todayDay && month === todayMonth && year === todayYear) {
+          dayDiv.classList.add('today');
+        }
+
+        if (events[i]) {
+          dayDiv.classList.add('event');
+
+          events[i].forEach(ev => {
+            const span = document.createElement('span');
+            span.innerText = ev.title;
+            dayDiv.appendChild(span);
+          });
+
+          dayDiv.onclick = () => {
+            let html = "";
+            events[i].forEach(ev => {
+              html += `<strong>${ev.title}</strong><br>${ev.description}<br><br>`;
+            });
+            description.innerHTML = html;
+          };
+        }
+
+        calendar.appendChild(dayDiv);
+      }
+
+      updateButtons();
     }
 
+    function nextMonth() {
+      if (month < 4) {
+        month++;
+        renderCalendar();
+      }
+    }
+
+    function prevMonth() {
+      if (month > 2) {
+        month--;
+        renderCalendar();
+      }
+    }
+
+    function updateButtons() {
+      const buttons = document.querySelectorAll("button");
+      buttons[0].disabled = (month === 2);
+      buttons[1].disabled = (month === 4);
+    }
+
+    renderCalendar();
+
+    // 🔥 FUNÇÃO EXTRA (NÃO ALTERA SEU CÓDIGO)
+function hidePastEvents() {
+  const days = document.querySelectorAll('.day');
+
+  days.forEach(dayDiv => {
+    const numberDiv = dayDiv.querySelector('div');
+    if (!numberDiv) return;
+
+    const dayNumber = parseInt(numberDiv.innerText);
+
+    const isPastDay =
+      (year === todayYear && month === todayMonth && dayNumber < todayDay) ||
+      (year === todayYear && month < todayMonth) ||
+      (year < todayYear);
+
+    if (isPastDay && dayDiv.classList.contains('event')) {
+      dayDiv.classList.remove('event');
+
+      const spans = dayDiv.querySelectorAll('span');
+      spans.forEach(span => span.remove());
+
+      dayDiv.onclick = null;
+    }
+  });
+} 
+
+// 🔁 OBSERVADOR AUTOMÁTICO (EXECUTA SEM MEXER NA SUA FUNÇÃO)
+const observer = new MutationObserver(() => {
+  hidePastEvents();
+});
+
+observer.observe(document.getElementById('calendar'), {
+  childList: true,
+  subtree: true
+});
+
+// roda uma vez ao carregar
+hidePastEvents();
   </script>
 
 </body>
 </html>
+```
