@@ -46,15 +46,6 @@
       gap: 8px;
     }
 
-    button:hover {
-      transform: translateY(-2px) scale(1.05);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.25);
-    }
-
-    button:active {
-      transform: scale(0.95);
-    }
-
     button:disabled {
       background: #ffc1d6;
       cursor: not-allowed;
@@ -81,17 +72,6 @@
       border-radius: 14px;
       padding: 18px 10px;
       font-size: 24px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-      text-transform: uppercase;
-      letter-spacing: 2px;
-    }
-
-    .weekdays div:nth-child(1) {
-      background: linear-gradient(135deg, #ff2e63, #ff6b81);
-    }
-
-    .weekdays div:nth-child(7) {
-      background: linear-gradient(135deg, #6a5acd, #9370db);
     }
 
     .calendar {
@@ -109,32 +89,9 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       font-size: 16px;
       font-weight: bold;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      justify-content: flex-start;
       padding: 8px;
-      transition: 0.2s;
       min-height: 85px;
       position: relative;
-    }
-
-    .day:hover {
-      transform: scale(1.05);
-    }
-
-    .day span {
-      font-size: 20px;
-      font-weight: 900;
-      margin-top: 4px;
-    }
-
-    .day:nth-child(7n+1) {
-      background-color: #ffe5ec;
-    }
-
-    .day:nth-child(7n) {
-      background-color: #e6e6fa;
     }
 
     .event {
@@ -142,35 +99,16 @@
       color: white;
     }
 
-    .selected {
-      outline: 3px solid #d63384;
-      transform: scale(1.05);
-    }
-
-    .event::after {
-      content: '';
-      width: 8px;
-      height: 8px;
-      background: red;
-      border-radius: 50%;
-      position: absolute;
-      top: 6px;
-      right: 6px;
-    }
-
     .today {
       border: 3px solid #78b6be;
       background-color: #a2d8e0 !important;
     }
 
-    .today::before {
-      content: 'HOJE';
-      font-size: 10px;
-      color: #007281;
-      position: absolute;
-      bottom: 5px;
-      right: 5px;
-      font-weight: bold;
+    .day span {
+      display: block;
+      margin-top: 6px;
+      font-size: 17px;
+      line-height: 1.4;
     }
 
     #description {
@@ -181,65 +119,33 @@
       font-size: 18px;
     }
 
-    /* 📱 CORREÇÃO MOBILE (ADICIONADO) */
-    @media (max-width: 600px) {
-
-      body {
-        height: auto;
-      }
-
-      h1 {
-        font-size: 18px;
-      }
-
-      .buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      button {
-        width: 90%;
-        justify-content: center;
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      .weekdays {
-        gap: 4px;
-        padding: 6px;
-      }
-
-      .weekdays div {
-        font-size: 12px;
-        padding: 8px 2px;
-        letter-spacing: 1px;
-      }
-
-      .calendar {
-        gap: 4px;
-        padding: 6px;
-      }
-
-      .day {
-        min-height: 65px;
-        padding: 4px;
-        font-size: 11px;
-      }
-
-      .day span {
-        font-size: 10px;
-        line-height: 1.1;
-      }
-
-      .day div {
-        font-size: 13px;
-      }
-
-      #description {
-        font-size: 14px;
-        padding: 12px;
-      }
+    .selected {
+      border: 3px solid #ff4d88;
+      transform: scale(1.05);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+      transition: 0.2s;
     }
+
+    /* ===== ADIÇÕES (sem mexer no original) ===== */
+
+    .weekend-sat {
+      background-color: #ffe0f0 !important;
+    }
+
+    .weekend-sun {
+      background-color: #ffd6e7 !important;
+    }
+
+    a {
+      color: #ff4d88;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: #d63384;
+    }
+
   </style>
 </head>
 <body>
@@ -263,76 +169,78 @@
     const title = document.getElementById('title');
 
     const year = 2026;
-    let month = 2;
+    let month = 4;
 
     const today = new Date();
     const todayDay = today.getDate();
     const todayMonth = today.getMonth();
     const todayYear = today.getFullYear();
 
-   const eventsMarch = { 
-    25: [ 
-    { title: "PROVA Legislação empresarial", description: "Prova!!" }, 
-    { title: "Questões Geografia", description: "Fazer as questões do livro e da apostila (pdf no grupo), NAO copiem as perguntas" },
-    { title: "Trote", description: "Troca de gênero!!" } ],
+    const eventsMay = {
+      4: [
+        {
+          title: "Mapa mental de Sociologia", description: "Fazer apenas um mapa mental sobre a >primeira revolução industrial e a revolução francesa<, usando o 1 cap do livro"
+        }
+      ],
+      6: [
+        {
+          title: "- Blog da Mara", 
+          description: "Escolher 5 temas do blog e explicar o porque de você ter os escolhido (min de 15 linhas cada motivo)",
+          files: [
+            {
+              url: "https://hemetec.wordpress.com/",
+              label: "Blog da Mara"
+            },
+            {
+              url: "https://www.facebook.com/opergaminho2014",
+              label: "Facebook do blog"
+            }
+          ]
+        }
+      ],
 
-     27: [ { title: "Experimento de Química", description: "Trazer materiais da lista (no grupo) para fazermos o exp. na sala" } ,
-      { title: "Atividade de Ingles e Treino", description: "Fazer as questoes de ingles (pdf) no caderno e treino da serie" }
-     ] ,
+      9: [
+        {
+          title: "Sábado Letivo com Café! ☕", description: "Enquete para os alimentos no grupo!"
+        }
+      ],
 
-     30: [ 
-      { title: "Seminario CPRT", description: "Temas no grupo" } ,
-      { title: "Seminario Filosofia", description: "Temas no grupo" } ,
-    
-    ] ,
+      11: [
+        {
+          title: "Apostila e livro de Geografia", description: "Fazer as paginas: 41, 42, 43, 44, 45, 46, 47 da apostila digital E pagina 15 do livro",
+          files: [
+            {
+              url: "https://drive.google.com/file/d/1tOTF-Z9Y9Bd5yeup3bXV7UJWttNjvx6_/preview",
+              label: "Apostila digital 📱"
+            },
+            {
+              url: "https://drive.google.com/file/d/1Pn-pnSFBAV7HQaiMA2PnsqxyHf6gwoMm/preview",
+              label:"Pagina 15 do livro 📖"
+            }
+          ]
+        }
+      ],
 
-    31: [ 
-      { title: "Prova de Quimica", description: " Prova!!" } ,
-    { title: "Prova de Filosofia", description: "Prova, temas que vao cair no grupo."  } ,
-    { title: "Inglês Atividade", description: "Atividade do Pdf"  },
-    { title: "Apresentação de Biologia", description: "Apresentação dos grupos restantes" }
-  ] 
-  }
-const eventsApril = { 
-  1: [ 
-    { title: "Prova de Geografia", description: "Prova de Geografia" } ,
-    { title: "Prova de Fisica", description: "Temas no grupo" },
-    { title: "Questoes de Historia", description: "2 questoes da PG. 19 (copiar enunciado opcional)" }
-  ] ,
-  2: [ 
-    { title: "Prova de Protugues", description: "Prova" } ,
-    { title: "Prova de Sociologia", description: "Prova" },
-    { title: "Exercicios de Fisica", description: "Pdf no grupo" }
+      12: [
+        { title: "- Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" },
 
-  ] ,
-  
- 
-
-  6: [ 
-    { title: "Prova de Matematica", description: "Prova" } ,
-    { title: "Prova de Artes", description: "Prova" },
-    { title: "Trabalho Dupla de Historia", description: "Fazer depoimento das mulheres, site 'museu da pessoa'"
-
-    } ],
-
-  7: [ 
-    { title: "Prova de Ingles", description: "Prova" } ,
-    { title: "Prova de Historia", description: "Prova" }
-  ]
-}
-
-const eventsMay = {
-  12: [
-    { title: "Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" }
-  ] 
-};
+        {
+          title: "- Atividade de PORA", 
+          description: "Elaborar uma lista de tarefas semanal seguindo as regras do PDF abaixo 👇",
+          files: [
+            {
+              url: "https://docs.google.com/document/d/1MFxYoxx0Yp4F356tBQdZlgcdzCyECrn2/preview",
+              label: "PDF de PORA"
+            }
+          ]
+        }
+      ]
+    };
 
     const daysOfWeek = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-    const monthNames = ['Janeiro','Fevereiro','Março','Abril','Maio'];
+    const monthNames = ['','','','','Maio'];
 
     function getEvents() {
-      if (month === 2) return eventsMarch;
-      if (month === 3) return eventsApril;
       if (month === 4) return eventsMay;
       return {};
     }
@@ -361,6 +269,11 @@ const eventsMay = {
         const dayDiv = document.createElement('div');
         dayDiv.classList.add('day');
 
+        /* ADIÇÃO */
+        const dayOfWeek = new Date(year, month, i).getDay();
+        if (dayOfWeek === 0) dayDiv.classList.add('weekend-sun');
+        if (dayOfWeek === 6) dayDiv.classList.add('weekend-sat');
+
         const number = document.createElement('div');
         number.innerText = i;
         dayDiv.appendChild(number);
@@ -379,10 +292,29 @@ const eventsMay = {
           });
 
           dayDiv.onclick = () => {
+
+            document.querySelectorAll('.day').forEach(d => {
+              d.classList.remove('selected');
+            });
+
+            dayDiv.classList.add('selected');
+
             let html = "";
+
             events[i].forEach(ev => {
               html += `<strong>${ev.title}</strong><br>${ev.description}<br><br>`;
+
+              if (ev.files) {
+                ev.files.forEach(f => {
+                  html += `
+                    <a href="${f.url}" target="_blank">
+                      ${f.label}
+                    </a><br><br>
+                  `;
+                });
+              }
             });
+
             description.innerHTML = html;
           };
         }
@@ -393,64 +325,17 @@ const eventsMay = {
       updateButtons();
     }
 
-    function nextMonth() {
-      if (month < 4) {
-        month++;
-        renderCalendar();
-      }
-    }
-
-    function prevMonth() {
-      if (month > 2) {
-        month--;
-        renderCalendar();
-      }
-    }
+    function nextMonth() {}
+    function prevMonth() {}
 
     function updateButtons() {
       const buttons = document.querySelectorAll("button");
-      buttons[0].disabled = (month === 2);
-      buttons[1].disabled = (month === 4);
+      buttons[0].disabled = true;
+      buttons[1].disabled = true;
     }
 
     renderCalendar();
-
-    function hidePastEvents() {
-      const days = document.querySelectorAll('.day');
-
-      days.forEach(dayDiv => {
-        const numberDiv = dayDiv.querySelector('div');
-        if (!numberDiv) return;
-
-        const dayNumber = parseInt(numberDiv.innerText);
-
-        const isPastDay =
-          (year === todayYear && month === todayMonth && dayNumber < todayDay) ||
-          (year === todayYear && month < todayMonth) ||
-          (year < todayYear);
-
-        if (isPastDay && dayDiv.classList.contains('event')) {
-          dayDiv.classList.remove('event');
-
-          const spans = dayDiv.querySelectorAll('span');
-          spans.forEach(span => span.remove());
-
-          dayDiv.onclick = null;
-        }
-      });
-    } 
-
-    const observer = new MutationObserver(() => {
-      hidePastEvents();
-    });
-
-    observer.observe(document.getElementById('calendar'), {
-      childList: true,
-      subtree: true
-    });
-
-    hidePastEvents();
   </script>
 
 </body>
-</html> 
+</html>
