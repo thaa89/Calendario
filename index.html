@@ -189,6 +189,46 @@
     font-size: 14px;
     padding: 12px;
   }
+
+  @media (max-width: 600px) {
+
+  .calendar {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .day {
+    width: 100%;
+    min-height: auto;
+    padding: 12px;
+    border-radius: 16px;
+    font-size: 14px;
+  }
+
+  .day span {
+    font-size: 13px;
+  }
+
+  .weekdays {
+    display: none; /* some com os dias da semana */
+  }
+
+  .buttons {
+    flex-direction: row;
+    gap: 6px;
+  }
+
+  button {
+    flex: 1;
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  #description {
+    font-size: 14px;
+  }
+}
 }
 
   </style>
