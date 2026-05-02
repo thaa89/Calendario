@@ -418,6 +418,8 @@
 
       title.innerText = `Calendário de ${monthNames[month]}`;
 
+
+
       daysOfWeek.forEach(day => {
         const div = document.createElement('div');
         div.innerText = day;
@@ -488,7 +490,26 @@
 
         calendar.appendChild(dayDiv);
       }
+// MOSTRAR TODOS OS EVENTOS AO ABRIR
+let initialHtml = "";
 
+Object.keys(events).forEach(day => {
+  events[day].forEach(ev => {
+    initialHtml += `<strong>Dia ${day} - ${ev.title}</strong><br>${ev.description}<br><br>`;
+
+    if (ev.files) {
+      ev.files.forEach(f => {
+        initialHtml += `
+          <a href="${f.url}" target="_blank">
+            ${f.label}
+          </a><br><br>
+        `;
+      });
+    }
+  });
+});
+
+description.innerHTML = initialHtml;
       updateButtons();
     }
 
