@@ -5,201 +5,159 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calendário</title>
 
-  <style>
-    * { box-sizing: border-box; }
+ <style>
+* { box-sizing: border-box; }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #ffe4ec;
-      margin: 0;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+body {
+  font-family: Arial, sans-serif;
+  background-color: #ffe4ec;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-    h1 {
-      color: #d63384;
-      margin: 10px 0;
-      text-align: center;
-      font-size: 24px;
-    }
+/* ===== TÍTULO ===== */
+h1 {
+  color: #d63384;
+  margin: 10px 0;
+  text-align: center;
+  font-size: 24px;
+}
 
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 12px;
-    }
+/* ===== BOTÕES ===== */
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
 
-    button {
-      margin: 10px 0;
-      padding: 12px 22px;
-      border: none;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #ff4d88, #ff80ab);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
+button {
+  margin: 10px 0;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #ff4d88, #ff80ab);
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
 
-    button:disabled {
-      background: #ffc1d6;
-      cursor: not-allowed;
-      opacity: 0.6;
-      box-shadow: none;
-    }
+button:disabled {
+  background: #ffc1d6;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
 
-    .weekdays {
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-      padding: 10px;
-      position: sticky;
-      top: 0;
-      background: #ffe4ec;
-      z-index: 10;
-    }
+/* ===== DIAS DA SEMANA ===== */
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  padding: 10px;
+  position: sticky;
+  top: 0;
+  background: #ffe4ec;
+  z-index: 10;
+}
 
-    .weekdays div {
-      text-align: center;
-      font-weight: 900;
-      background: linear-gradient(135deg, #ff4d88, #ff80ab);
-      color: white;
-      border-radius: 14px;
-      padding: 18px 10px;
-      font-size: 24px;
-    }
+.weekdays div {
+  text-align: center;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff4d88, #ff80ab);
+  color: white;
+  border-radius: 14px;
+  padding: 14px;
+  font-size: 18px;
+}
 
-    .calendar {
-      flex: 1;
-      display: grid;
-      grid-template-columns: repeat(7, 1fr);
-      gap: 8px;
-      padding: 10px;
-    }
+/* ===== CALENDÁRIO ===== */
+.calendar {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+  padding: 10px;
+}
 
-    .day {
-      background-color: white;
-      border-radius: 10px;
-      cursor: pointer;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-      font-size: 16px;
-      font-weight: bold;
-      padding: 8px;
-      min-height: 85px;
-      position: relative;
-    }
+.day {
+  background: white;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  padding: 6px;
+  font-size: 14px;
+  font-weight: bold;
 
-    .event {
-      background-color: #ff80ab !important;
-      color: white;
-    }
+  display: flex;
+  flex-direction: column;
 
-    .today {
-      border: 3px solid #78b6be;
-      background-color: #a2d8e0 !important;
-    }
+  aspect-ratio: 1 / 1; /* 🔥 quadrado perfeito */
+}
 
-    .day span {
-      display: block;
-      margin-top: 6px;
-      font-size: 17px;
-      line-height: 1.4;
-    }
+/* número do dia */
+.day > div {
+  font-size: 14px;
+}
 
-    #description {
-      padding: 20px;
-      background-color: white;
-      border-top: 3px solid #ff4d88;
-      min-height: 120px;
-      font-size: 18px;
-    }
+/* títulos */
+.day span {
+  font-size: 10px;
+  margin-top: 2px;
 
-    .selected {
-      border: 3px solid #ff4d88;
-      transform: scale(1.05);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-      transition: 0.2s;
-    }
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
-    /* ===== ADIÇÕES (sem mexer no original) ===== */
+/* ===== ESTADOS ===== */
+.event {
+  background-color: #ff80ab !important;
+  color: white;
+}
 
-    .weekend-sat {
-      background-color: #ffe0f0 !important;
-    }
+.today {
+  border: 2px solid #78b6be;
+}
 
-    .weekend-sun {
-      background-color: #ffd6e7 !important;
-    }
+.selected {
+  outline: 2px solid #ff4d88;
+}
 
-    a {
-      color: #ff4d88;
-      font-weight: bold;
-      text-decoration: none;
-    }
+/* ===== FINS DE SEMANA ===== */
+.weekend-sat {
+  background-color: #ffe0f0 !important;
+}
 
-    a:hover {
-      color: #d63384;
-    }
+.weekend-sun {
+  background-color: #ffd6e7 !important;
+}
 
-    /* ===== RESPONSIVO CELULAR ===== */
+/* ===== LINKS ===== */
+a {
+  color: #ff4d88;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ===== DESCRIÇÃO ===== */
+#description {
+  padding: 16px;
+  background: white;
+  border-top: 3px solid #ff4d88;
+  font-size: 16px;
+}
+
+/* ========================= */
+/* 📱 MOBILE LIMPO E CERTO */
+/* ========================= */
 @media (max-width: 600px) {
-
-  h1 {
-    font-size: 18px;
-  }
-
-  .buttons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  button {
-    width: 90%;
-    justify-content: center;
-    font-size: 14px;
-    padding: 10px;
-  }
-
-  .weekdays div {
-    font-size: 14px;
-    padding: 10px 4px;
-  }
-
-  .calendar {
-    gap: 4px;
-    padding: 6px;
-  }
-
-  .day {
-    min-height: 60px;
-    font-size: 12px;
-    padding: 4px;
-  }
-
-  .day span {
-    font-size: 11px;
-  }
-
-  #description {
-    font-size: 14px;
-    padding: 12px;
-  }
-
-  /* ===== MOBILE ESTILO IPHONE ===== */
-@media (max-width: 600px) {
-
-  body {
-    height: auto;
-  }
 
   h1 {
     font-size: 20px;
-    font-weight: 600;
   }
 
   .buttons {
@@ -208,83 +166,44 @@
 
   button {
     flex: 1;
-    font-size: 13px;
     padding: 8px;
-    border-radius: 10px;
+    font-size: 13px;
   }
 
   .weekdays {
-    gap: 2px;
+    gap: 4px;
     padding: 6px;
   }
 
   .weekdays div {
     font-size: 12px;
     padding: 6px;
-    border-radius: 8px;
     background: none;
     color: #d63384;
   }
 
   .calendar {
-    gap: 2px;
+    gap: 4px;
     padding: 6px;
   }
 
   .day {
-    min-height: 55px;
-    padding: 6px;
-    border-radius: 12px;
-    background: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    font-size: 13px;
-  }
-
-  /* número do dia */
-  .day > div {
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 11px;
+    padding: 4px;
   }
 
   .day span {
-  display: block;
-  font-size: 10px;
-  margin-top: 2px;
-}
-
-  /* bolinha de evento */
-  .day.event::after {
-    content: "";
-    width: 6px;
-    height: 6px;
-    background: #ff4d88;
-    border-radius: 50%;
-    margin-top: 4px;
-  }
-
-  .today {
-    background: #ff4d88 !important;
-    color: white;
-    border: none;
-  }
-
-  .selected {
-    outline: 2px solid #ff4d88;
-    transform: none;
+    font-size: 9px;
   }
 
   #description {
     font-size: 14px;
-    padding: 14px;
-    border-radius: 16px 16px 0 0;
-    margin-top: 10px;
+    padding: 12px;
   }
 }
-
+</style>
   
-}
+
 
   </style>
 </head>
@@ -338,7 +257,7 @@
           ]
         },
         {
-          title: " -  Apres. Slides de Historia", description: "Fazer e apresentar slides referentes a questao 5 do livro 👇",
+          title: " -  Apres. de Slides de Historia", description: "Fazer e apresentar slides referentes a questao 5 do livro 👇",
           files:  [
     {
       url: "https://drive.google.com/file/d/1YycOH3vuqeNMx7gilRgsZWfdGSkTJBIw/preview",
