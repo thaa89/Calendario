@@ -146,6 +146,51 @@
       color: #d63384;
     }
 
+    /* ===== RESPONSIVO CELULAR ===== */
+@media (max-width: 600px) {
+
+  h1 {
+    font-size: 18px;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    width: 90%;
+    justify-content: center;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .weekdays div {
+    font-size: 14px;
+    padding: 10px 4px;
+  }
+
+  .calendar {
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .day {
+    min-height: 60px;
+    font-size: 12px;
+    padding: 4px;
+  }
+
+  .day span {
+    font-size: 11px;
+  }
+
+  #description {
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -179,7 +224,7 @@
     const eventsMay = {
       4: [
         {
-          title: "Mapa mental de Sociologia", description: "Fazer apenas um mapa mental sobre a >primeira revolução industrial e a revolução francesa<, usando o 1 cap do livro"
+          title: "- Mapa mental de Sociologia", description: "Fazer apenas um mapa mental sobre a >primeira revolução industrial e a revolução francesa<, usando o 1 cap do livro"
         }
       ],
       6: [
@@ -196,18 +241,28 @@
               label: "Facebook do blog"
             }
           ]
-        }
+        },
+        {
+          title: " -  Apresentação de Slides de Historia", description: "Fazer e apresentar slides referentes a questao 5 do livro 👇",
+          files:  [
+    {
+      url: "https://drive.google.com/file/d/1YycOH3vuqeNMx7gilRgsZWfdGSkTJBIw/preview",
+      label: "Perguntas de 1 a 5"
+    }
+  ]
+}
+        
       ],
 
       9: [
         {
-          title: "Sábado Letivo com Café! ☕", description: "Enquete para os alimentos no grupo!"
+          title: "- Sábado Letivo com Café! ☕", description: "Enquete para os alimentos no grupo!"
         }
       ],
 
       11: [
         {
-          title: "Apostila e livro de Geografia", description: "Fazer as paginas: 41, 42, 43, 44, 45, 46, 47 da apostila digital E pagina 15 do livro",
+          title: "- Apostila e livro de Geografia", description: "Fazer as paginas: 41, 42, 43, 44, 45, 46, 47 da apostila digital E pagina 15 do livro",
           files: [
             {
               url: "https://drive.google.com/file/d/1tOTF-Z9Y9Bd5yeup3bXV7UJWttNjvx6_/preview",
@@ -231,6 +286,24 @@
             {
               url: "https://docs.google.com/document/d/1MFxYoxx0Yp4F356tBQdZlgcdzCyECrn2/preview",
               label: "PDF de PORA"
+            }
+          ]
+        }
+      ],
+
+      13: [
+        {
+          title: "- Entrega do roteiro dos contos africanos (Historia)", description: "Roteiro do video em grupo (4), com base no conto, contendo biografia do autor e historia do pais, enquete no grupo"
+        }
+      ],
+
+      14: [
+        {
+          title: "- 3 frases para Português", description: "Fazer 3 frases usando cada figura de linguagem presente no pdf",
+          files: [
+            {
+              url: "https://docs.google.com/document/d/1rbIgC75RN4GPD9ugxgAaLOmZQInO9e7L/preview",
+              label: "PDF/material de apoio"
             }
           ]
         }
