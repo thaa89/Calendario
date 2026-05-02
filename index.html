@@ -190,32 +190,19 @@
     padding: 12px;
   }
 
-  @media (max-width: 600px) {
+  /* ===== MOBILE ESTILO IPHONE ===== */
+@media (max-width: 600px) {
 
-  .calendar {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  body {
+    height: auto;
   }
 
-  .day {
-    width: 100%;
-    min-height: auto;
-    padding: 12px;
-    border-radius: 16px;
-    font-size: 14px;
-  }
-
-  .day span {
-    font-size: 13px;
-  }
-
-  .weekdays {
-    display: none; /* some com os dias da semana */
+  h1 {
+    font-size: 20px;
+    font-weight: 600;
   }
 
   .buttons {
-    flex-direction: row;
     gap: 6px;
   }
 
@@ -223,12 +210,79 @@
     flex: 1;
     font-size: 13px;
     padding: 8px;
+    border-radius: 10px;
+  }
+
+  .weekdays {
+    gap: 2px;
+    padding: 6px;
+  }
+
+  .weekdays div {
+    font-size: 12px;
+    padding: 6px;
+    border-radius: 8px;
+    background: none;
+    color: #d63384;
+  }
+
+  .calendar {
+    gap: 2px;
+    padding: 6px;
+  }
+
+  .day {
+    min-height: 55px;
+    padding: 6px;
+    border-radius: 12px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 13px;
+  }
+
+  /* número do dia */
+  .day > div {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* ESCONDE textos dentro do dia (fica estilo iPhone) */
+  .day span {
+    display: none;
+  }
+
+  /* bolinha de evento */
+  .day.event::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: #ff4d88;
+    border-radius: 50%;
+    margin-top: 4px;
+  }
+
+  .today {
+    background: #ff4d88 !important;
+    color: white;
+    border: none;
+  }
+
+  .selected {
+    outline: 2px solid #ff4d88;
+    transform: none;
   }
 
   #description {
     font-size: 14px;
+    padding: 14px;
+    border-radius: 16px 16px 0 0;
+    margin-top: 10px;
   }
 }
+
+  
 }
 
   </style>
