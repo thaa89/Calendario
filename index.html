@@ -1,23 +1,22 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calendário</title>
+  <!DOCTYPE html>
+  <html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendário</title>
 
- <style>
+<style>
 * { box-sizing: border-box; }
 
 body {
   font-family: Arial, sans-serif;
   background-color: #ffe4ec;
   margin: 0;
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
-/* ===== TÍTULO ===== */
 h1 {
   color: #d63384;
   margin: 10px 0;
@@ -25,7 +24,6 @@ h1 {
   font-size: 24px;
 }
 
-/* ===== BOTÕES ===== */
 .buttons {
   display: flex;
   justify-content: center;
@@ -42,6 +40,10 @@ button {
   font-weight: bold;
   cursor: pointer;
   box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+  transition: all 0.25s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 button:disabled {
@@ -51,7 +53,6 @@ button:disabled {
   box-shadow: none;
 }
 
-/* ===== DIAS DA SEMANA ===== */
 .weekdays {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
@@ -69,11 +70,10 @@ button:disabled {
   background: linear-gradient(135deg, #ff4d88, #ff80ab);
   color: white;
   border-radius: 14px;
-  padding: 14px;
-  font-size: 18px;
+  padding: 18px 10px;
+  font-size: 24px;
 }
 
-/* ===== CALENDÁRIO ===== */
 .calendar {
   flex: 1;
   display: grid;
@@ -83,51 +83,50 @@ button:disabled {
 }
 
 .day {
-  background: white;
+  background-color: white;
   border-radius: 10px;
   cursor: pointer;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  padding: 6px;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
-
-  display: flex;
-  flex-direction: column;
-
-  aspect-ratio: 1 / 1; /* 🔥 quadrado perfeito */
+  padding: 8px;
+  min-height: 85px;
+  position: relative;
 }
 
-/* número do dia */
-.day > div {
-  font-size: 14px;
-}
-
-/* títulos */
-.day span {
-  font-size: 10px;
-  margin-top: 2px;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* ===== ESTADOS ===== */
 .event {
   background-color: #ff80ab !important;
   color: white;
 }
 
 .today {
-  border: 2px solid #78b6be;
+  border: 3px solid #78b6be;
+  background-color: #a2d8e0 !important;
+}
+
+.day span {
+  display: block;
+  margin-top: 6px;
+  font-size: 17px;
+  line-height: 1.4;
+}
+
+#description {
+  padding: 20px;
+  background-color: white;
+  border-top: 3px solid #ff4d88;
+  min-height: 120px;
+  font-size: 18px;
 }
 
 .selected {
-  outline: 2px solid #ff4d88;
+  border: 3px solid #ff4d88;
+  transform: scale(1.05);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  transition: 0.2s;
 }
 
-/* ===== FINS DE SEMANA ===== */
+/* extras */
 .weekend-sat {
   background-color: #ffe0f0 !important;
 }
@@ -136,314 +135,348 @@ button:disabled {
   background-color: #ffd6e7 !important;
 }
 
-/* ===== LINKS ===== */
 a {
   color: #ff4d88;
   font-weight: bold;
   text-decoration: none;
 }
 
-/* ===== DESCRIÇÃO ===== */
-#description {
-  padding: 16px;
-  background: white;
-  border-top: 3px solid #ff4d88;
-  font-size: 16px;
+a:hover {
+  color: #d63384;
 }
 
-/* ========================= */
-/* 📱 MOBILE LIMPO E CERTO */
-/* ========================= */
+/* ===== MOBILE (TUDO JUNTO E CORRETO) ===== */
 @media (max-width: 600px) {
+
+  body {
+    height: auto;
+  }
 
   h1 {
     font-size: 20px;
+    font-weight: 600;
   }
 
   .buttons {
+    flex-direction: column;
+    align-items: center;
     gap: 6px;
   }
 
   button {
-    flex: 1;
-    padding: 8px;
+    width: 90%;
+    justify-content: center;
     font-size: 13px;
+    padding: 8px;
+    border-radius: 10px;
   }
 
   .weekdays {
-    gap: 4px;
+    gap: 2px;
     padding: 6px;
   }
 
   .weekdays div {
     font-size: 12px;
     padding: 6px;
+    border-radius: 8px;
     background: none;
     color: #d63384;
   }
 
   .calendar {
-    gap: 4px;
+    gap: 2px;
     padding: 6px;
   }
 
   .day {
-    font-size: 11px;
-    padding: 4px;
+    min-height: 55px;
+    padding: 6px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+  }
+
+  .day > div {
+    font-size: 14px;
+    font-weight: 600;
   }
 
   .day span {
-    font-size: 9px;
+    font-size: 10px;
+    margin-top: 2px;
+  }
+
+  .day.event::after {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: #ff4d88;
+    border-radius: 50%;
+    margin-top: 4px;
+  }
+
+  .today {
+    background: #ff4d88 !important;
+    color: white;
+    border: none;
+  }
+
+  .selected {
+    outline: 2px solid #ff4d88;
+    transform: none;
   }
 
   #description {
     font-size: 14px;
-    padding: 12px;
+    padding: 14px;
+    border-radius: 16px 16px 0 0;
+    margin-top: 10px;
   }
 }
 </style>
+    
   
 
+  </head>
+  <body>
 
-  </style>
-</head>
-<body>
+    <h1 id="title"></h1>
 
-  <h1 id="title"></h1>
+    <div class="buttons">
+      <button onclick="prevMonth()">← Mês anterior</button>
+      <button onclick="nextMonth()">Próximo mês →</button>
+    </div>
 
-  <div class="buttons">
-    <button onclick="prevMonth()">← Mês anterior</button>
-    <button onclick="nextMonth()">Próximo mês →</button>
-  </div>
+    <div class="weekdays" id="weekdays"></div>
+    <div class="calendar" id="calendar"></div>
 
-  <div class="weekdays" id="weekdays"></div>
-  <div class="calendar" id="calendar"></div>
+    <div id="description">Clique em um dia com evento para ver os detalhes.</div>
 
-  <div id="description">Clique em um dia com evento para ver os detalhes.</div>
+    <script>
+      const calendar = document.getElementById('calendar');
+      const weekdays = document.getElementById('weekdays');
+      const description = document.getElementById('description');
+      const title = document.getElementById('title');
 
-  <script>
-    const calendar = document.getElementById('calendar');
-    const weekdays = document.getElementById('weekdays');
-    const description = document.getElementById('description');
-    const title = document.getElementById('title');
+      const year = 2026;
+      let month = 4;
 
-    const year = 2026;
-    let month = 4;
+      const today = new Date();
+      const todayDay = today.getDate();
+      const todayMonth = today.getMonth();
+      const todayYear = today.getFullYear();
 
-    const today = new Date();
-    const todayDay = today.getDate();
-    const todayMonth = today.getMonth();
-    const todayYear = today.getFullYear();
+      const eventsMay = {
+        4: [
+          {
+            title: "- Mapa mental de Sociologia", description: "Fazer apenas um mapa mental sobre a >primeira revolução industrial e a revolução francesa<, usando o 1 cap do livro"
+          }
+        ],
+        6: [
+          {
+            title: "- Blog da Mara", 
+            description: "Escolher 5 temas do blog e explicar o porque de você ter os escolhido (min de 15 linhas cada motivo)",
+            files: [
+              {
+                url: "https://hemetec.wordpress.com/",
+                label: "Blog da Mara"
+              },
+              {
+                url: "https://www.facebook.com/opergaminho2014",
+                label: "Facebook do blog"
+              }
+            ]
+          },
+          {
+            title: " -  Apres. de Slides de Historia", description: "Fazer e apresentar slides referentes a questao 5 do livro 👇",
+            files:  [
+      {
+        url: "https://drive.google.com/file/d/1YycOH3vuqeNMx7gilRgsZWfdGSkTJBIw/preview",
+        label: "Perguntas de 1 a 5"
+      }
+    ]
+  }
+          
+        ],
 
-    const eventsMay = {
-      4: [
-        {
-          title: "- Mapa mental de Sociologia", description: "Fazer apenas um mapa mental sobre a >primeira revolução industrial e a revolução francesa<, usando o 1 cap do livro"
-        }
-      ],
-      6: [
-        {
-          title: "- Blog da Mara", 
-          description: "Escolher 5 temas do blog e explicar o porque de você ter os escolhido (min de 15 linhas cada motivo)",
-          files: [
-            {
-              url: "https://hemetec.wordpress.com/",
-              label: "Blog da Mara"
-            },
-            {
-              url: "https://www.facebook.com/opergaminho2014",
-              label: "Facebook do blog"
-            }
-          ]
-        },
-        {
-          title: " -  Apres. de Slides de Historia", description: "Fazer e apresentar slides referentes a questao 5 do livro 👇",
-          files:  [
-    {
-      url: "https://drive.google.com/file/d/1YycOH3vuqeNMx7gilRgsZWfdGSkTJBIw/preview",
-      label: "Perguntas de 1 a 5"
-    }
-  ]
-}
-        
-      ],
+        9: [
+          {
+            title: "- Sábado Letivo com Café! ☕", description: "Enquete para os alimentos no grupo!"
+          }
+        ],
 
-      9: [
-        {
-          title: "- Sábado Letivo com Café! ☕", description: "Enquete para os alimentos no grupo!"
-        }
-      ],
+        11: [
+          {
+            title: "- Apostila&livro de Geografia", description: "Fazer as paginas: 41, 42, 43, 44, 45, 46, 47 da apostila digital E pagina 15 do livro",
+            files: [
+              {
+                url: "https://drive.google.com/file/d/1tOTF-Z9Y9Bd5yeup3bXV7UJWttNjvx6_/preview",
+                label: "Apostila digital 📱"
+              },
+              {
+                url: "https://drive.google.com/file/d/1Pn-pnSFBAV7HQaiMA2PnsqxyHf6gwoMm/preview",
+                label:"Pagina 15 do livro 📖"
+              }
+            ]
+          }
+        ],
 
-      11: [
-        {
-          title: "- Apostila&livro de Geografia", description: "Fazer as paginas: 41, 42, 43, 44, 45, 46, 47 da apostila digital E pagina 15 do livro",
-          files: [
-            {
-              url: "https://drive.google.com/file/d/1tOTF-Z9Y9Bd5yeup3bXV7UJWttNjvx6_/preview",
-              label: "Apostila digital 📱"
-            },
-            {
-              url: "https://drive.google.com/file/d/1Pn-pnSFBAV7HQaiMA2PnsqxyHf6gwoMm/preview",
-              label:"Pagina 15 do livro 📖"
-            }
-          ]
-        }
-      ],
+        12: [
+          { title: "- Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" },
 
-      12: [
-        { title: "- Apresentação de Ingles", description: "Apresentação final Todo Mundo Odeia o Chris" },
+          {
+            title: "- Atividade de PORA", 
+            description: "Elaborar uma lista de tarefas semanal seguindo as regras do PDF abaixo 👇",
+            files: [
+              {
+                url: "https://docs.google.com/document/d/1MFxYoxx0Yp4F356tBQdZlgcdzCyECrn2/preview",
+                label: "PDF de PORA"
+              }
+            ]
+          }
+        ],
 
-        {
-          title: "- Atividade de PORA", 
-          description: "Elaborar uma lista de tarefas semanal seguindo as regras do PDF abaixo 👇",
-          files: [
-            {
-              url: "https://docs.google.com/document/d/1MFxYoxx0Yp4F356tBQdZlgcdzCyECrn2/preview",
-              label: "PDF de PORA"
-            }
-          ]
-        }
-      ],
+        13: [
+          {
+            title: "-Roteiro contos africanos (Historia)", description: "Roteiro do video em grupo (4), com base no conto, contendo biografia do autor e historia do pais, enquete no grupo"
+          }
+        ],
 
-      13: [
-        {
-          title: "-Roteiro contos africanos (Historia)", description: "Roteiro do video em grupo (4), com base no conto, contendo biografia do autor e historia do pais, enquete no grupo"
-        }
-      ],
+        14: [
+          {
+            title: "- 3 frases para Português", description: "Fazer 3 frases usando cada figura de linguagem presente no pdf",
+            files: [
+              {
+                url: "https://docs.google.com/document/d/1rbIgC75RN4GPD9ugxgAaLOmZQInO9e7L/preview",
+                label: "PDF/material de apoio"
+              }
+            ]
+          }
+        ]
+      };
 
-      14: [
-        {
-          title: "- 3 frases para Português", description: "Fazer 3 frases usando cada figura de linguagem presente no pdf",
-          files: [
-            {
-              url: "https://docs.google.com/document/d/1rbIgC75RN4GPD9ugxgAaLOmZQInO9e7L/preview",
-              label: "PDF/material de apoio"
-            }
-          ]
-        }
-      ]
-    };
+      const daysOfWeek = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+      const monthNames = ['','','','','Maio'];
 
-    const daysOfWeek = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
-    const monthNames = ['','','','','Maio'];
-
-    function getEvents() {
-      if (month === 4) return eventsMay;
-      return {};
-    }
-
-    function renderCalendar() {
-      calendar.innerHTML = "";
-      weekdays.innerHTML = "";
-
-      title.innerText = `Calendário de ${monthNames[month]}`;
-
-
-
-      daysOfWeek.forEach(day => {
-        const div = document.createElement('div');
-        div.innerText = day;
-        weekdays.appendChild(div);
-      });
-
-      const totalDays = new Date(year, month + 1, 0).getDate();
-      const startDay = new Date(year, month, 1).getDay();
-      const events = getEvents();
-
-      for (let i = 0; i < startDay; i++) {
-        calendar.appendChild(document.createElement('div'));
+      function getEvents() {
+        if (month === 4) return eventsMay;
+        return {};
       }
 
-      for (let i = 1; i <= totalDays; i++) {
-        const dayDiv = document.createElement('div');
-        dayDiv.classList.add('day');
+      function renderCalendar() {
+        calendar.innerHTML = "";
+        weekdays.innerHTML = "";
 
-        /* ADIÇÃO */
-        const dayOfWeek = new Date(year, month, i).getDay();
-        if (dayOfWeek === 0) dayDiv.classList.add('weekend-sun');
-        if (dayOfWeek === 6) dayDiv.classList.add('weekend-sat');
+        title.innerText = `Calendário de ${monthNames[month]}`;
 
-        const number = document.createElement('div');
-        number.innerText = i;
-        dayDiv.appendChild(number);
 
-        if (i === todayDay && month === todayMonth && year === todayYear) {
-          dayDiv.classList.add('today');
+
+        daysOfWeek.forEach(day => {
+          const div = document.createElement('div');
+          div.innerText = day;
+          weekdays.appendChild(div);
+        });
+
+        const totalDays = new Date(year, month + 1, 0).getDate();
+        const startDay = new Date(year, month, 1).getDay();
+        const events = getEvents();
+
+        for (let i = 0; i < startDay; i++) {
+          calendar.appendChild(document.createElement('div'));
         }
 
-        if (events[i]) {
-          dayDiv.classList.add('event');
+        for (let i = 1; i <= totalDays; i++) {
+          const dayDiv = document.createElement('div');
+          dayDiv.classList.add('day');
 
-          events[i].forEach(ev => {
-            const span = document.createElement('span');
-            span.innerText = ev.title;
-            dayDiv.appendChild(span);
-          });
+          /* ADIÇÃO */
+          const dayOfWeek = new Date(year, month, i).getDay();
+          if (dayOfWeek === 0) dayDiv.classList.add('weekend-sun');
+          if (dayOfWeek === 6) dayDiv.classList.add('weekend-sat');
 
-          dayDiv.onclick = () => {
+          const number = document.createElement('div');
+          number.innerText = i;
+          dayDiv.appendChild(number);
 
-            document.querySelectorAll('.day').forEach(d => {
-              d.classList.remove('selected');
-            });
+          if (i === todayDay && month === todayMonth && year === todayYear) {
+            dayDiv.classList.add('today');
+          }
 
-            dayDiv.classList.add('selected');
-
-            let html = "";
+          if (events[i]) {
+            dayDiv.classList.add('event');
 
             events[i].forEach(ev => {
-              html += `<strong>${ev.title}</strong><br>${ev.description}<br><br>`;
-
-              if (ev.files) {
-                ev.files.forEach(f => {
-                  html += `
-                    <a href="${f.url}" target="_blank">
-                      ${f.label}
-                    </a><br><br>
-                  `;
-                });
-              }
+              const span = document.createElement('span');
+              span.innerText = ev.title;
+              dayDiv.appendChild(span);
             });
 
-            description.innerHTML = html;
-          };
+            dayDiv.onclick = () => {
+
+              document.querySelectorAll('.day').forEach(d => {
+                d.classList.remove('selected');
+              });
+
+              dayDiv.classList.add('selected');
+
+              let html = "";
+
+              events[i].forEach(ev => {
+                html += `<strong>${ev.title}</strong><br>${ev.description}<br><br>`;
+
+                if (ev.files) {
+                  ev.files.forEach(f => {
+                    html += `
+                      <a href="${f.url}" target="_blank">
+                        ${f.label}
+                      </a><br><br>
+                    `;
+                  });
+                }
+              });
+
+              description.innerHTML = html;
+            };
+          }
+
+          calendar.appendChild(dayDiv);
         }
+  // MOSTRAR TODOS OS EVENTOS AO ABRIR
+  let initialHtml = "";
 
-        calendar.appendChild(dayDiv);
+  Object.keys(events).forEach(day => {
+    events[day].forEach(ev => {
+      initialHtml += `<strong>Dia ${day} - ${ev.title}</strong><br>${ev.description}<br><br>`;
+
+      if (ev.files) {
+        ev.files.forEach(f => {
+          initialHtml += `
+            <a href="${f.url}" target="_blank">
+              ${f.label}
+            </a><br><br>
+          `;
+        });
       }
-// MOSTRAR TODOS OS EVENTOS AO ABRIR
-let initialHtml = "";
-
-Object.keys(events).forEach(day => {
-  events[day].forEach(ev => {
-    initialHtml += `<strong>Dia ${day} - ${ev.title}</strong><br>${ev.description}<br><br>`;
-
-    if (ev.files) {
-      ev.files.forEach(f => {
-        initialHtml += `
-          <a href="${f.url}" target="_blank">
-            ${f.label}
-          </a><br><br>
-        `;
-      });
-    }
+    });
   });
-});
 
-description.innerHTML = initialHtml;
-      updateButtons();
-    }
+  description.innerHTML = initialHtml;
+        updateButtons();
+      }
 
-    function nextMonth() {}
-    function prevMonth() {}
+      function nextMonth() {}
+      function prevMonth() {}
 
-    function updateButtons() {
-      const buttons = document.querySelectorAll("button");
-      buttons[0].disabled = true;
-      buttons[1].disabled = true;
-    }
+      function updateButtons() {
+        const buttons = document.querySelectorAll("button");
+        buttons[0].disabled = true;
+        buttons[1].disabled = true;
+      }
 
-    renderCalendar();
-  </script>
+      renderCalendar();
+    </script>
 
-</body>
-</html>
+  </body>
+  </html>
