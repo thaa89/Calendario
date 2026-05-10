@@ -117,14 +117,14 @@
     border-top: 3px solid #ff4d88;
     min-height: 120px;
     font-size: 18px;
+      height: 180px;
+  overflow-y: auto;
   }
 
   .selected {
-    border: 3px solid #ff4d88;
-    transform: scale(1.05);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.25);
-    transition: 0.2s;
-  }
+  border: 3px solid #ff4d88;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+}
 
   /* extras */
   .weekend-sat {
@@ -231,16 +231,17 @@
       border: none;
     }
 
-    .selected {
-      outline: 2px solid #ff4d88;
-      transform: none;
-    }
+ .selected {
+  outline: 2px solid #ff4d88;
+}
 
     #description {
       font-size: 14px;
       padding: 14px;
       border-radius: 16px 16px 0 0;
       margin-top: 10px;
+        height: 180px;
+  overflow-y: auto;
     }
 
   .calendar {
@@ -386,6 +387,34 @@
                   label: "PDF/material de apoio"
                 }
               ]
+            },
+            {
+              title:"- Apresentações Portugues", description: "Apresentações referentes a representação de funções em forma de vídeo"
+            }
+          ],
+
+          22: [
+            {
+              title: "Lição Ingles", description:"Manter no caderno, copiar apenas as alternativas",
+              files: [
+                {
+                  url: "https://docs.google.com/document/d/19Gf4_kesN8NjbYnK-24AcAwteU4GwTSSsrdHoa8inBE/preview",
+                  label:"Atividade 📄 "
+                }
+              ]
+            }
+
+          ],
+
+          27: [
+            {
+              title:"- Planejamento Emp.", description:"Fazer com os mesmos grupos anteriores, trabalho referente a semana paulo freire",
+              files: [
+                {
+                  url: "https://drive.google.com/file/d/197dJO6uOJAUjLcQOZXEUoek8LlYEzCEo/preview",
+                  label: "Explicação na lousa"
+                }
+              ]
             }
           ]
         };
@@ -393,10 +422,25 @@
         const daysOfWeek = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
         const monthNames = ['','','','','Maio'];
 
-        function getEvents() {
-          if (month === 4) return eventsMay;
-          return {};
-        }
+       function getEvents() {
+  let events = {};
+
+  if (month === 4) events = eventsMay;
+
+  // remove eventos que já passaram
+  const filtered = {};
+
+  Object.keys(events).forEach(day => {
+    const eventDate = new Date(year, month, day);
+
+    // mantém apenas hoje ou futuro
+    if (eventDate >= new Date(todayYear, todayMonth, todayDay)) {
+      filtered[day] = events[day];
+    }
+  });
+
+  return filtered;
+}
 
         function renderCalendar() {
           calendar.innerHTML = "";
